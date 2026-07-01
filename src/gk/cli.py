@@ -8,7 +8,8 @@ from rich.console import Console
 
 from gk import __version__
 from gk.audit import run_audit
-from gk.report import render_findings
+from gk.inventory import collect_inventory
+from gk.report import render_findings, render_inventory
 from gk.scanners.cache import CacheDirectoryScanner
 
 app = typer.Typer(
@@ -41,3 +42,10 @@ def audit(
     scanner = CacheDirectoryScanner(home=home)
     findings = run_audit([scanner])
     render_findings(findings, console=console)
+
+
+@app.command()
+def inventory() -> None:
+    """Print a read-only installed software inventory."""
+    applications = collect_inventory()
+    render_inventory(applications, console=console)

@@ -11,6 +11,7 @@ explains why each one was flagged, but it does not delete, move, or clean files.
 ```bash
 gk version
 gk audit
+gk inventory
 ```
 
 `gk audit` currently scans application cache directories directly under
@@ -26,12 +27,24 @@ Future scanners can be added for areas such as desktop launchers, Snap,
 Flatpak, JetBrains, Thunderbird, KDE, AppImages, and other home-directory
 health checks.
 
+`gk inventory` prints a read-only table of installed software found from
+available package and app sources:
+
+- APT packages from `dpkg-query`
+- Snap packages from `snap list`
+- Flatpak apps from `flatpak list --app`
+- AppImage files in common application locations
+
+If a source is unavailable or cannot be read, it is skipped without modifying
+the system.
+
 ## Development
 
 ```bash
 python -m pip install -e ".[dev]"
-pytest
-ruff check .
+uv run pytest
+uv run ruff check .
+uv run gk inventory
 ```
 
 ## Safety
