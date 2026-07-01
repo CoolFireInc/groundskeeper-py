@@ -1,0 +1,133 @@
+# groundsKeeper Codex Project Instructions
+
+[project]
+name = "groundsKeeper"
+language = "Python"
+python_version = "3.12+"
+
+[philosophy]
+description = """
+groundsKeeper is a Linux workstation health and maintenance platform.
+
+The goal is to help users maintain long-lived Linux installations without
+requiring periodic reinstallations.
+
+Safety and transparency always take precedence over aggressive cleanup.
+
+When in doubt, prefer code that helps the user understand their system over code
+that simply automates changes.
+"""
+principles = [
+  "Audit first.",
+  "Understand before acting.",
+  "Preserve user data.",
+  "Never delete when quarantine is possible.",
+  "Read-only by default.",
+  "Every recommendation must explain why.",
+  "Every destructive operation must be reversible.",
+]
+
+[rules]
+architecture = [
+  "Prefer small, composable modules.",
+  "Prefer readability over cleverness.",
+  "Favor standard library when practical.",
+  "Avoid unnecessary dependencies.",
+  "Use pathlib instead of os.path whenever possible.",
+  "Use dataclasses where appropriate.",
+  "Use type hints everywhere.",
+  "Write docstrings for all public classes and functions.",
+]
+project_philosophy = [
+  "Read-only by default.",
+  "Audit before action.",
+  "Explain every recommendation.",
+  "Never silently modify user data.",
+  "Prefer quarantine over deletion.",
+  "Every destructive operation must be reversible.",
+  "Every recommendation should include a reason.",
+  "False positives are preferable to false negatives.",
+]
+scanner = [
+  "Scanners never modify the system.",
+  "Scanners never print directly.",
+  "Scanners return Finding objects.",
+  "Scanners should be independently testable.",
+  "One responsibility per scanner.",
+]
+cli = [
+  "CLI code should remain thin.",
+  "Business logic belongs in library modules.",
+  "Rich handles presentation only.",
+]
+reporting = [
+  "Reports consume Findings.",
+  "Reports never perform scanning.",
+  "Scanners never generate reports.",
+]
+testing = [
+  "Every scanner should have unit tests.",
+  "Use temporary directories whenever possible.",
+  "Avoid requiring the developer's actual machine for tests.",
+]
+logging = [
+  "Never use print() for diagnostics.",
+  "Use the project's logging framework.",
+]
+style = [
+  "Follow Ruff defaults.",
+  "Keep functions short.",
+  "Keep nesting shallow.",
+  "Prefer explicit code.",
+  "Prefer descriptive variable names.",
+  "Avoid premature optimization.",
+]
+documentation = [
+  "Keep README user-focused.",
+  "Architecture belongs in docs/.",
+  "Document WHY as well as HOW.",
+]
+git = [
+  "Prefer small logical commits.",
+  "Do not introduce unrelated refactoring.",
+  "Keep pull requests focused.",
+]
+
+[future]
+design_targets = [
+  "APT",
+  "Snap",
+  "Flatpak",
+  "AppImage",
+  "KDE",
+  "JetBrains",
+  "Thunderbird",
+  "Browser profiles",
+  "Developer environments",
+  "Quarantine",
+  "Restore",
+  "HTML reporting",
+]
+goal = "Design modules to support future targets without requiring architectural changes."
+
+[anti_patterns]
+avoid = [
+  "giant utility.py modules",
+  "giant helper.py modules",
+  "singleton classes",
+  "global state",
+  "circular imports",
+  "premature abstraction",
+  "inheritance where composition is simpler",
+  "scanner-specific code inside report generation",
+  "report-specific code inside scanners",
+]
+
+[design]
+feature_guidance = [
+  "Prefer extending existing architecture over adding exceptions.",
+  "If a design change is needed, explain the tradeoffs.",
+  "If multiple approaches are reasonable, briefly describe them and implement the simplest.",
+  "Avoid introducing dependencies unless they provide significant value.",
+  "Maintain backward compatibility whenever practical.",
+]

@@ -1,0 +1,26 @@
+# Normalize text files
+* text=auto eol=lf
+
+# Python
+*.py text
+
+# Markdown
+*.md text
+
+# YAML
+*.yml text
+*.yaml text
+
+# TOML
+*.toml text
+
+# Shell
+*.sh text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary

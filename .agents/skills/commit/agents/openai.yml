@@ -1,0 +1,3 @@
+# Restricts model generation during tool execution to respect conventional rules
+invocation:
+  allow_model_call: false
