@@ -5,6 +5,23 @@ from enum import StrEnum
 from pathlib import Path
 
 
+class Category(StrEnum):
+    CACHE = "cache"
+    CONFIG = "config"
+    APPLICATION_DATA = "application_data"
+    DESKTOP_LAUNCHER = "desktop_launcher"
+    PACKAGE_DATA = "package_data"
+    SYSTEMD_USER = "systemd_user"
+    DEVELOPMENT = "development"
+    UNKNOWN = "unknown"
+
+
+class Confidence(StrEnum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+
+
 class Severity(StrEnum):
     INFO = "info"
     LOW = "low"
@@ -14,23 +31,30 @@ class Severity(StrEnum):
 
 @dataclass(frozen=True, slots=True)
 class Finding:
-    path: Path
-    size_bytes: int
+    id: str
+    title: str
+    category: Category
     severity: Severity
+    path: Path | None
+    size_bytes: int | None
     recommendation: str
     reason: str
     scanner: str
+    confidence: Confidence
 
     def __post_init__(self) -> None:
-        if self.size_bytes < 0:
+        require_non_empty("id", self.id)
+        require_non_empty("title", self.title)
+        require_non_empty("reason", self.reason)
+        require_non_empty("recommendation", self.recommendation)
+        require_non_empty("scanner", self.scanner)
+
+        if self.size_bytes is not None and self.size_bytes < 0:
             msg = "size_bytes must be zero or greater"
             raise ValueError(msg)
-        if not self.reason.strip():
-            msg = "findings must explain why they were flagged"
-            raise ValueError(msg)
-        if not self.recommendation.strip():
-            msg = "findings must include a recommendation"
-            raise ValueError(msg)
-        if not self.scanner.strip():
-            msg = "findings must include the scanner name"
-            raise ValueError(msg)
+
+
+def require_non_empty(field_name: str, value: str) -> None:
+    if not isinstance(value, str) or not value.strip():
+        msg = f"{field_name} must be a non-empty string"
+        raise ValueError(msg)

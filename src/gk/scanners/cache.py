@@ -4,7 +4,7 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-from gk.models import Finding, Severity
+from gk.models import Category, Confidence, Finding, Severity
 
 LOW_SEVERITY_BYTES = 1 * 1024 * 1024 * 1024
 MEDIUM_SEVERITY_BYTES = 5 * 1024 * 1024 * 1024
@@ -32,10 +32,14 @@ class CacheDirectoryScanner:
 
             findings.append(
                 Finding(
+                    id=f"cache-directory:{path.name}",
+                    title="Application cache directory",
+                    category=Category.CACHE,
                     path=path,
                     size_bytes=size_bytes,
                     severity=severity_for_size(size_bytes),
                     scanner=self.name,
+                    confidence=Confidence.HIGH,
                     reason=(
                         "This is a non-empty application cache directory under "
                         "~/.cache. Cache data can accumulate over time and is "
