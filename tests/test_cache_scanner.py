@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from gk.models import Severity
+from gk.models import Category, Confidence, Severity
 from gk.scanners.cache import CacheDirectoryScanner, severity_for_size
 
 
@@ -18,9 +18,13 @@ def test_cache_scanner_reports_non_empty_cache_directories(tmp_path: Path) -> No
 
     assert len(findings) == 1
     finding = findings[0]
+    assert finding.id == "cache-directory:example-app"
+    assert finding.title == "Application cache directory"
+    assert finding.category is Category.CACHE
     assert finding.path == app_cache
     assert finding.size_bytes >= len(b"cache-data")
     assert finding.severity is Severity.INFO
+    assert finding.confidence is Confidence.HIGH
     assert finding.scanner == "cache-directories"
     assert "under ~/.cache" in finding.reason
     assert "Review" in finding.recommendation
